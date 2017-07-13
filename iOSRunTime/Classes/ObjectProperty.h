@@ -83,7 +83,12 @@ extern const char TFunction;            // T^?
 @property (assign, nonatomic) const char *getter;
 @property (assign, nonatomic) const char *setter;
 
-+ (NSArray *)parseProperties:(Class)prototype;
-+ (NSDictionary *)parsePropertiesInMap:(Class)prototype;
++ (NSArray *)parseProperties:(Class)prototype
+__attribute((deprecated("Use propertiesOfClass:prototype instead.")));
++ (NSDictionary *)parsePropertiesInMap:(Class)prototype
+__attribute((deprecated("Use namedPropertiesOfClass:prototype instead.")));
+
++ (NSArray *)propertiesOfClass:(Class)prototype;
++ (NSDictionary *)namedPropertiesOfClass:(Class)prototype;
 
 @end

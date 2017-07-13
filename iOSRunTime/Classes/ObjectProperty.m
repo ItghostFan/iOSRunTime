@@ -36,12 +36,21 @@ const char TFunction        = '?';          // T^?
 }
 
 + (NSArray *)parseProperties:(Class)prototype {
+    return [self propertiesOfClass:prototype];
+}
+
++ (NSDictionary *)parsePropertiesInMap:(Class)prototype {
+    return [self namedPropertiesOfClass:prototype];
+}
+
+
++ (NSArray *)propertiesOfClass:(Class)prototype {
     NSMutableArray *objectProperties = nil;
     uint32_t propertyCount = 0;
     objc_property_t *properties = class_copyPropertyList(prototype, &propertyCount);
     Class superClass = [prototype superclass];
     if (superClass != [NSObject class]) {
-        objectProperties = (NSMutableArray *)[self parseProperties:superClass];
+        objectProperties = (NSMutableArray *)[self propertiesOfClass:superClass];
     }
     if (propertyCount) {
         if (!objectProperties) {
@@ -69,8 +78,8 @@ const char TFunction        = '?';          // T^?
     return objectProperties;
 }
 
-+ (NSDictionary *)parsePropertiesInMap:(Class)prototype {
-    NSArray *parseProperties = [self parseProperties:prototype];
++ (NSDictionary *)namedPropertiesOfClass:(Class)prototype {
+    NSArray *parseProperties = [self propertiesOfClass:prototype];
     NSMutableDictionary *objectProperties = nil;
     if (parseProperties.count) {
         objectProperties = [NSMutableDictionary dictionaryWithCapacity:parseProperties.count];
