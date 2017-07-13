@@ -123,10 +123,14 @@ typedef void (^FPParseProperty)(ObjectProperty *property, const char *value);
                  property.ivarName = [self copyString:value];
              }, @(Property_Type):^(ObjectProperty *property, const char *value) {
                  const char *type = value + 2;
-                 property.type = [self copyString:type length:strlen(type) - 1];
+                 size_t length = strlen(type);
+                 if (length > 0)
+                     property.type = [self copyString:type length:length - 1];
              }, @(property_type):^(ObjectProperty *property, const char *value) {
                  const char *type = value + 2;
-                 property.type = [self copyString:type length:strlen(type) - 1];
+                 size_t length = strlen(type);
+                 if (length > 0)
+                     property.type = [self copyString:type length:length - 1];
              },
              };
 }
